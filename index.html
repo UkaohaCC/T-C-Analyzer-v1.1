@@ -834,43 +834,21 @@
     }
 
     async function analyzeWithAI(text, apiKey) {
-      const prompt = `You are a legal clarity assistant. Analyze the terms and conditions below and return a single valid JSON object.
+      const prompt = `Analyze these terms and conditions. Reply with ONLY a JSON object, no other text.
 
-Rules:
-- "verdict" must be exactly one of: "agree", "caution", "decline"
-- "verdictLabel" must be exactly one of: "Safe to agree", "Agree with caution", "Consider declining"
-- "verdictSummary" is 2 plain-English sentences
-- "tldr" is 1 plain-English sentence
-- All score values are integers 0-100 where 0 = worst for user, 100 = best
-- All flag arrays contain short strings under 15 words each
-- All keyPoints values are plain-English strings
+Use these exact keys and short values:
+- verdict: one word only — "agree", "caution", or "decline"
+- verdictLabel: "Safe to agree", "Agree with caution", or "Consider declining"
+- verdictSummary: max 20 words
+- tldr: max 15 words
+- scores.privacy, scores.fairness, scores.transparency, scores.userRights: integer 0-100
+- redFlags: array of max 3 strings, each under 10 words
+- amberFlags: array of max 3 strings, each under 10 words
+- greenFlags: array of max 3 strings, each under 10 words
+- keyPoints.dataUsage, keyPoints.cancellation, keyPoints.liability, keyPoints.ownership: each max 15 words
 
-Return this exact JSON shape with real values filled in:
-{
-  "verdict": "caution",
-  "verdictLabel": "Agree with caution",
-  "verdictSummary": "This service collects significant personal data. Review the data sharing clauses before agreeing.",
-  "tldr": "You are giving this company broad rights to your data in exchange for using their platform.",
-  "scores": {
-    "privacy": 45,
-    "fairness": 60,
-    "transparency": 70,
-    "userRights": 55
-  },
-  "redFlags": ["Company can share your data with third parties without notice"],
-  "amberFlags": ["Auto-renewal requires 30 days notice to cancel"],
-  "greenFlags": ["You can delete your account at any time"],
-  "keyPoints": {
-    "dataUsage": "Your data may be shared with advertising partners.",
-    "cancellation": "Cancel anytime from account settings.",
-    "liability": "Company liability is capped at fees paid in the last 12 months.",
-    "ownership": "You retain ownership of your content."
-  }
-}
-
-Now analyze these terms and conditions and return only the JSON, no other text:
-
-${text.slice(0, 8000)}`;
+TERMS:
+${text.slice(0, 4000)}`;
 
       try {
         const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + apiKey;
@@ -895,15 +873,38 @@ ${text.slice(0, 8000)}`;
 
         const data = await response.json();
         const raw = data.candidates[0].content.parts[0].text;
-        const clean = raw.replace(/```json|```/g, '').trim();
-        try {
-          return JSON.parse(clean);
-        } catch (parseErr) {
-          const fixedQuotes = clean.replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
-          const noTrailing = fixedQuotes.replace(/,\s*([\]}])/g, '$1');
-          return JSON.parse(noTrailing);
+
+        function repairAndParse(str) {
+          str = str.replace(/```json|```/g, '').trim();
+          const s = str.indexOf('{');
+          if (s > 0) str = str.slice(s);
+          let open = 0, closeAt = -1;
+          for (let i = 0; i < str.length; i++) {
+            if (str[i] === '{') open++;
+            if (str[i] === '}') { open--; if (open === 0) { closeAt = i; break; } }
+          }
+          if (closeAt !== -1) str = str.slice(0, closeAt + 1);
+          else while (open-- > 0) str += '}';
+          str = str.replace(/,\s*([\]}])/g, '$1');
+          let inStr = false, esc = false, out = '';
+          for (let i = 0; i < str.length; i++) {
+            const c = str[i];
+            if (esc) { out += c; esc = false; continue; }
+            if (c === '\\') { out += c; esc = true; continue; }
+            if (c === '"') inStr = !inStr;
+            if (inStr && c === '\n') { out += '\\n'; continue; }
+            if (inStr && c === '\r') continue;
+            out += c;
+          }
+          if (inStr) { out += '"}}}'; }
+          return JSON.parse(out);
         }
 
+        try {
+          return repairAndParse(raw);
+        } catch (e) {
+          throw new Error('Could not parse AI response. Try again.');
+        }
       } catch (err) {
         showError('AI analysis failed: ' + err.message);
         return null;
