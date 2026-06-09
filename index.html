@@ -30,7 +30,6 @@
       gap: 1.5rem;
     }
 
-
     header h1 {
       font-size: 28px;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -44,7 +43,6 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 
-
     .input-section,
     .verdict-card,
     .scores-card,
@@ -56,7 +54,6 @@
       border-radius: 12px;
       padding: 1.5rem;
     }
-
 
     .input-tabs {
       display: flex;
@@ -88,12 +85,10 @@
       opacity: 1;
     }
 
-
     .tab-btn.active {
       background: #1a1a1a;
       color: #fff;
     }
-
 
     .input-panel {
       display: none;
@@ -129,7 +124,6 @@
       border-color: #888;
       background: #fff;
     }
-
 
     .url-input-wrap {
       display: flex;
@@ -181,7 +175,6 @@
       margin-top: 6px;
     }
 
-
     .button-group {
       display: flex;
       gap: 10px;
@@ -205,14 +198,8 @@
       flex: 1;
     }
 
-    #analyze-btn:hover {
-      opacity: 0.85;
-    }
-
-    #analyze-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    #analyze-btn:hover { opacity: 0.85; }
+    #analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
     #clear-btn {
       background: transparent;
@@ -220,10 +207,7 @@
       border-color: #ddd;
     }
 
-    #clear-btn:hover {
-      background: #f5f5f0;
-    }
-
+    #clear-btn:hover { background: #f5f5f0; }
 
     .results-section {
       display: none;
@@ -231,30 +215,12 @@
       gap: 1.5rem;
     }
 
+    .verdict-card { border-left: 5px solid #ccc; }
+    .verdict-card.agree   { border-left-color: #4a9c59; background: #f0faf2; }
+    .verdict-card.caution { border-left-color: #d4900a; background: #fffbf0; }
+    .verdict-card.decline { border-left-color: #c0392b; background: #fff5f5; }
 
-    .verdict-card {
-      border-left: 5px solid #ccc;
-    }
-
-    .verdict-card.agree {
-      border-left-color: #4a9c59;
-      background: #f0faf2;
-    }
-
-    .verdict-card.caution {
-      border-left-color: #d4900a;
-      background: #fffbf0;
-    }
-
-    .verdict-card.decline {
-      border-left-color: #c0392b;
-      background: #fff5f5;
-    }
-
-    #verdict-icon {
-      font-size: 32px;
-      margin-bottom: 6px;
-    }
+    #verdict-icon { font-size: 32px; margin-bottom: 6px; }
 
     #verdict-label {
       font-size: 20px;
@@ -263,10 +229,7 @@
       margin-bottom: 8px;
     }
 
-    #verdict-summary {
-      color: #444;
-      margin-bottom: 10px;
-    }
+    #verdict-summary { color: #444; margin-bottom: 10px; }
 
     #tldr {
       font-size: 14px;
@@ -275,7 +238,6 @@
       padding-top: 10px;
       margin-top: 4px;
     }
-
 
     .scores-card h3,
     .flags-card h3,
@@ -293,11 +255,7 @@
       margin-bottom: 10px;
     }
 
-    .score-label {
-      font-size: 14px;
-      color: #555;
-      min-width: 100px;
-    }
+    .score-label { font-size: 14px; color: #555; min-width: 100px; }
 
     .score-bar-bg {
       flex: 1;
@@ -323,7 +281,6 @@
       text-align: right;
     }
 
-
     #flags-list {
       list-style: none;
       display: flex;
@@ -339,15 +296,12 @@
       gap: 8px;
     }
 
-
     .key-point {
       padding: 12px 0;
       border-bottom: 1px solid #f0f0ea;
     }
 
-    .key-point:last-child {
-      border-bottom: none;
-    }
+    .key-point:last-child { border-bottom: none; }
 
     .key-point h4 {
       font-size: 13px;
@@ -358,16 +312,9 @@
       margin-bottom: 4px;
     }
 
-    .key-point p {
-      font-size: 14px;
-      color: #333;
-      line-height: 1.6;
-    }
+    .key-point p { font-size: 14px; color: #333; line-height: 1.6; }
 
-
-    .history-section {
-      display: none;
-    }
+    .history-section { display: none; }
 
     .history-header {
       display: flex;
@@ -376,16 +323,12 @@
       margin-bottom: 1rem;
     }
 
-    .history-header h3 {
-      font-size: 16px;
-      font-weight: 600;
-    }
+    .history-header h3 { font-size: 16px; font-weight: 600; }
 
     #clear-history-btn {
       font-size: 13px;
       padding: 5px 12px;
       color: #c0392b;
-      border-color: #f5c6c2;
       background: transparent;
       border-radius: 6px;
       cursor: pointer;
@@ -393,16 +336,9 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 
-    #clear-history-btn:hover {
-      background: #fff5f5;
-    }
+    #clear-history-btn:hover { background: #fff5f5; }
 
-    #history-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
+    #history-list { display: flex; flex-direction: column; gap: 10px; }
 
     .history-item {
       display: flex;
@@ -416,9 +352,7 @@
       gap: 12px;
     }
 
-    .history-item:hover {
-      background: #fafaf8;
-    }
+    .history-item:hover { background: #fafaf8; }
 
     .history-item-left {
       display: flex;
@@ -428,7 +362,6 @@
       min-width: 0;
     }
 
-
     .history-verdict-dot {
       width: 10px;
       height: 10px;
@@ -436,22 +369,11 @@
       flex-shrink: 0;
     }
 
-    .history-verdict-dot.agree {
-      background: #4a9c59;
-    }
+    .history-verdict-dot.agree   { background: #4a9c59; }
+    .history-verdict-dot.caution { background: #d4900a; }
+    .history-verdict-dot.decline { background: #c0392b; }
 
-    .history-verdict-dot.caution {
-      background: #d4900a;
-    }
-
-    .history-verdict-dot.decline {
-      background: #c0392b;
-    }
-
-    .history-item-info {
-      min-width: 0;
-      flex: 1;
-    }
+    .history-item-info { min-width: 0; flex: 1; }
 
     .history-item-title {
       font-size: 14px;
@@ -463,11 +385,7 @@
       text-overflow: ellipsis;
     }
 
-    .history-item-meta {
-      font-size: 12px;
-      color: #999;
-      margin-top: 2px;
-    }
+    .history-item-meta { font-size: 12px; color: #999; margin-top: 2px; }
 
     .history-item-right {
       display: flex;
@@ -483,20 +401,9 @@
       border-radius: 20px;
     }
 
-    .history-badge.agree {
-      background: #f0faf2;
-      color: #4a9c59;
-    }
-
-    .history-badge.caution {
-      background: #fffbf0;
-      color: #d4900a;
-    }
-
-    .history-badge.decline {
-      background: #fff5f5;
-      color: #c0392b;
-    }
+    .history-badge.agree   { background: #f0faf2; color: #4a9c59; }
+    .history-badge.caution { background: #fffbf0; color: #d4900a; }
+    .history-badge.decline { background: #fff5f5; color: #c0392b; }
 
     .history-delete-btn {
       font-size: 13px;
@@ -510,11 +417,7 @@
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
 
-    .history-delete-btn:hover {
-      color: #c0392b;
-      background: #fff5f5;
-    }
-
+    .history-delete-btn:hover { color: #c0392b; background: #fff5f5; }
 
     .history-empty {
       text-align: center;
@@ -522,7 +425,6 @@
       color: #bbb;
       padding: 1rem 0;
     }
-
 
     .apikey-section {
       background: #fff;
@@ -538,10 +440,7 @@
       margin-bottom: 0.75rem;
     }
 
-    .apikey-header h3 {
-      font-size: 15px;
-      font-weight: 600;
-    }
+    .apikey-header h3 { font-size: 15px; font-weight: 600; }
 
     .apikey-saved-badge {
       display: none;
@@ -554,15 +453,9 @@
       border-radius: 20px;
     }
 
-    .apikey-saved-badge.visible {
-      display: inline-block;
-    }
+    .apikey-saved-badge.visible { display: inline-block; }
 
-    .apikey-input-row {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
+    .apikey-input-row { display: flex; gap: 8px; align-items: center; }
 
     .apikey-input-wrap {
       flex: 1;
@@ -574,10 +467,7 @@
       transition: border-color 0.2s;
     }
 
-    .apikey-input-wrap:focus-within {
-      border-color: #888;
-      background: #fff;
-    }
+    .apikey-input-wrap:focus-within { border-color: #888; background: #fff; }
 
     #apikey-input {
       flex: 1;
@@ -601,11 +491,7 @@
       border-radius: 0;
     }
 
-    #apikey-toggle:hover {
-      background: #f5f5f0;
-      color: #444;
-      opacity: 1;
-    }
+    #apikey-toggle:hover { background: #f5f5f0; color: #444; opacity: 1; }
 
     #apikey-save-btn {
       background: #1a1a1a;
@@ -621,9 +507,7 @@
       transition: opacity 0.15s;
     }
 
-    #apikey-save-btn:hover {
-      opacity: 0.85;
-    }
+    #apikey-save-btn:hover { opacity: 0.85; }
 
     #apikey-remove-btn {
       display: none;
@@ -639,25 +523,11 @@
       transition: background 0.15s;
     }
 
-    #apikey-remove-btn:hover {
-      background: #fff5f5;
-    }
+    #apikey-remove-btn:hover { background: #fff5f5; }
+    #apikey-remove-btn.visible { display: inline-block; }
 
-    #apikey-remove-btn.visible {
-      display: inline-block;
-    }
-
-    .apikey-hint {
-      font-size: 12px;
-      color: #aaa;
-      margin-top: 8px;
-    }
-
-    .apikey-hint a {
-      color: #888;
-      text-decoration: underline;
-    }
-
+    .apikey-hint { font-size: 12px; color: #aaa; margin-top: 8px; }
+    .apikey-hint a { color: #888; text-decoration: underline; }
 
     footer {
       text-align: center;
@@ -666,23 +536,11 @@
       padding-top: 0.5rem;
     }
 
-
     @media (max-width: 480px) {
-      body {
-        padding: 1rem 0.75rem;
-      }
-
-      header h1 {
-        font-size: 22px;
-      }
-
-      .button-group {
-        flex-direction: column;
-      }
-
-      .history-item-meta {
-        display: none;
-      }
+      body { padding: 1rem 0.75rem; }
+      header h1 { font-size: 22px; }
+      .button-group { flex-direction: column; }
+      .history-item-meta { display: none; }
     }
   </style>
 </head>
@@ -695,8 +553,6 @@
       <p>Paste any terms and conditions... get a plain-English breakdown and a clear recommendation.</p>
     </header>
 
-
-
     <section class="apikey-section" id="apikey-section">
       <div class="apikey-header">
         <h3>Gemini API Key</h3>
@@ -704,28 +560,23 @@
       </div>
       <div class="apikey-input-row">
         <div class="apikey-input-wrap">
-          <input type="password" id="apikey-input" placeholder="Paste your Gemini API key here..." autocomplete="off"
-            spellcheck="false" />
+          <input type="password" id="apikey-input" placeholder="Paste your Gemini API key here..." autocomplete="off" spellcheck="false" />
           <button id="apikey-toggle" title="Show / hide key">👁</button>
         </div>
         <button id="apikey-save-btn">Save</button>
-        <button id="apikey-remove-btn" class="" title="Remove saved key">Remove</button>
+        <button id="apikey-remove-btn" title="Remove saved key">Remove</button>
       </div>
       <p class="apikey-hint">
-        Your key is stored only in your browser — never sent anywhere except directly to Google.
+        Your key is stored only in your browser, never sent anywhere except directly to Google.
         Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>.
       </p>
     </section>
 
-
     <section class="input-section">
-
-
       <div class="input-tabs">
-        <button class="tab-btn active" id="tab-paste" onclick="switchTab('paste')"> Paste Text</button>
-        <button class="tab-btn" id="tab-url" onclick="switchTab('url')"> Enter URL</button>
+        <button class="tab-btn active" id="tab-paste" onclick="switchTab('paste')">Paste Text</button>
+        <button class="tab-btn" id="tab-url" onclick="switchTab('url')">Enter URL</button>
       </div>
-
 
       <div class="input-panel active" id="panel-paste">
         <label for="tc-input">Paste your Terms & Conditions below:</label>
@@ -742,17 +593,13 @@
         <p class="url-note">The app will attempt to fetch and read the page content automatically.</p>
       </div>
 
-
       <div class="button-group">
         <button id="analyze-btn">Analyze</button>
         <button id="clear-btn">✕ Clear</button>
       </div>
-
     </section>
 
-
     <section class="results-section" id="results-section">
-
       <div class="verdict-card" id="verdict-card">
         <h2 id="verdict-icon"></h2>
         <h3 id="verdict-label"></h3>
@@ -764,30 +611,22 @@
         <h3>Scores</h3>
         <div class="score-row">
           <span class="score-label">Privacy</span>
-          <div class="score-bar-bg">
-            <div class="score-bar-fill" id="score-privacy"></div>
-          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" id="score-privacy"></div></div>
           <span class="score-value" id="score-privacy-val"></span>
         </div>
         <div class="score-row">
           <span class="score-label">Fairness</span>
-          <div class="score-bar-bg">
-            <div class="score-bar-fill" id="score-fairness"></div>
-          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" id="score-fairness"></div></div>
           <span class="score-value" id="score-fairness-val"></span>
         </div>
         <div class="score-row">
           <span class="score-label">Transparency</span>
-          <div class="score-bar-bg">
-            <div class="score-bar-fill" id="score-transparency"></div>
-          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" id="score-transparency"></div></div>
           <span class="score-value" id="score-transparency-val"></span>
         </div>
         <div class="score-row">
           <span class="score-label">Your Rights</span>
-          <div class="score-bar-bg">
-            <div class="score-bar-fill" id="score-rights"></div>
-          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" id="score-rights"></div></div>
           <span class="score-value" id="score-rights-val"></span>
         </div>
       </div>
@@ -816,22 +655,16 @@
           <p id="kp-ownership"></p>
         </div>
       </div>
-
     </section>
 
-
     <section class="history-section" id="history-section">
-
       <div class="history-header">
-        <h3> Recent Analyses</h3>
+        <h3>Recent Analyses</h3>
         <button id="clear-history-btn">Clear all</button>
       </div>
-
-
       <div id="history-list">
         <p class="history-empty">No analyses yet.</p>
       </div>
-
     </section>
 
     <footer>
@@ -841,13 +674,11 @@
   </div>
 
   <script>
-
     const KEY_STORAGE = 'tc_analyzer_gemini_key';
 
     function getApiKey() {
       return localStorage.getItem(KEY_STORAGE) || '';
     }
-
 
     document.getElementById('apikey-save-btn').addEventListener('click', function () {
       const val = document.getElementById('apikey-input').value.trim();
@@ -855,7 +686,6 @@
       localStorage.setItem(KEY_STORAGE, val);
       updateKeyUI(true);
     });
-
 
     document.getElementById('apikey-remove-btn').addEventListener('click', function () {
       if (confirm('Remove saved API key?')) {
@@ -872,7 +702,6 @@
       this.textContent = isHidden ? '🙈' : '👁';
     });
 
-
     function updateKeyUI(hasSavedKey) {
       document.getElementById('apikey-saved-badge').classList.toggle('visible', hasSavedKey);
       document.getElementById('apikey-remove-btn').classList.toggle('visible', hasSavedKey);
@@ -884,9 +713,7 @@
       }
     }
 
-
     updateKeyUI(!!getApiKey());
-
 
     let activeTab = 'paste';
 
@@ -898,28 +725,21 @@
       document.getElementById('tab-url').classList.toggle('active', tab === 'url');
     }
 
-
     document.getElementById('tc-input').addEventListener('input', function () {
-      document.getElementById('char-number').textContent =
-        this.value.length.toLocaleString();
+      document.getElementById('char-number').textContent = this.value.length.toLocaleString();
     });
-
-
 
     document.getElementById('clear-btn').addEventListener('click', function () {
       document.getElementById('tc-input').value = '';
       document.getElementById('url-input').value = '';
       document.getElementById('char-number').textContent = '0';
-
       document.getElementById('results-section').style.display = 'none';
     });
 
-
     document.getElementById('analyze-btn').addEventListener('click', async function () {
-
-      const API_KEY = getApiKey();
-      if (!API_KEY) {
-        alert('\u26a0\ufe0f Please enter and save your Gemini API key at the top of the page first.\nGet a free key at: https://aistudio.google.com/app/apikey');
+      const apiKey = getApiKey();
+      if (!apiKey) {
+        alert('⚠️ Please enter and save your Gemini API key at the top of the page first.\nGet a free key at: https://aistudio.google.com/app/apikey');
         document.getElementById('apikey-input').focus();
         return;
       }
@@ -932,9 +752,7 @@
           showError('Please paste some terms and conditions text first.');
           return;
         }
-
       } else {
-
         const url = document.getElementById('url-input').value.trim();
         if (!url) {
           showError('Please enter a URL first.');
@@ -946,7 +764,7 @@
       }
 
       setLoading(true, 'Analyzing terms and conditions...');
-      const result = await analyzeWithAI(tcText);
+      const result = await analyzeWithAI(tcText, apiKey);
       setLoading(false);
 
       if (result) {
@@ -955,58 +773,67 @@
       }
     });
 
-
-
     async function fetchUrlContent(url) {
-      try {
+      const proxies = [
+        'https://api.allorigins.win/get?url=' + encodeURIComponent(url),
+        'https://corsproxy.io/?' + encodeURIComponent(url)
+      ];
 
-        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
-        const response = await fetch(proxyUrl);
+      let lastError = '';
 
-        if (!response.ok) {
-          throw new Error('Could not fetch the page (status ' + response.status + ')');
+      for (let i = 0; i < proxies.length; i++) {
+        try {
+          setLoading(true, 'Fetching page... (attempt ' + (i + 1) + ')');
+          const response = await fetch(proxies[i]);
+
+          if (!response.ok) {
+            lastError = 'HTTP ' + response.status;
+            continue;
+          }
+
+          let html = '';
+          if (proxies[i].includes('allorigins')) {
+            const json = await response.json();
+            html = json.contents || '';
+          } else {
+            html = await response.text();
+          }
+
+          const plain = stripHtml(html);
+
+          if (plain.length < 100) {
+            lastError = 'Page too short or blocked by the site.';
+            continue;
+          }
+
+          setLoading(true, 'Page fetched! Now analyzing...');
+          return plain;
+
+        } catch (err) {
+          lastError = err.message;
         }
-
-        const html = await response.text();
-        const plain = stripHtml(html);
-
-        if (plain.length < 100) {
-          throw new Error('The page content seems too short. It may require login or block bots.');
-        }
-
-        setLoading(true, 'Page fetched! Now analyzing...');
-        return plain;
-
-      } catch (err) {
-        setLoading(false);
-        showError('Could not fetch that URL: ' + err.message + '. Try pasting the text manually instead.');
-        return null;
       }
+
+      setLoading(false);
+      showError('Could not fetch that URL automatically.\n\nReason: ' + lastError + '\n\nThis happens when a site blocks bots or requires login. Please copy and paste the text manually instead.');
+      return null;
     }
 
-
     function stripHtml(html) {
-
       html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
       html = html.replace(/<style[\s\S]*?<\/style>/gi, '');
-
       html = html.replace(/<[^>]+>/g, ' ');
-
       html = html.replace(/&amp;/g, '&')
-        .replace(/&nbsp;/g, ' ')
-        .replace(/&lt;/g, '<')
-        .replace(/&gt;/g, '>')
-        .replace(/&#39;/g, "'")
-        .replace(/&quot;/g, '"');
-
+                 .replace(/&nbsp;/g, ' ')
+                 .replace(/&lt;/g, '<')
+                 .replace(/&gt;/g, '>')
+                 .replace(/&#39;/g, "'")
+                 .replace(/&quot;/g, '"');
       html = html.replace(/\s{3,}/g, '\n\n').trim();
       return html;
     }
 
-
-    async function analyzeWithAI(text) {
-
-
+    async function analyzeWithAI(text, apiKey) {
       const prompt = `You are a legal clarity assistant. Your job is to analyze terms and conditions and help users understand what they are agreeing to.
 
 Respond ONLY with valid JSON — no explanation before or after, no markdown code fences.
@@ -1041,20 +868,13 @@ Here are the terms and conditions to analyze:
 ${text.slice(0, 8000)}`;
 
       try {
-
-        const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=' + API_KEY;
+        const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=' + apiKey;
 
         const response = await fetch(url, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            contents: [
-              {
-                parts: [{ text: prompt }]
-              }
-            ],
+            contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
               temperature: 0.2,
               maxOutputTokens: 1024
@@ -1068,12 +888,8 @@ ${text.slice(0, 8000)}`;
         }
 
         const data = await response.json();
-
         const raw = data.candidates[0].content.parts[0].text;
-
         const clean = raw.replace(/```json|```/g, '').trim();
-
-
         return JSON.parse(clean);
 
       } catch (err) {
@@ -1082,27 +898,21 @@ ${text.slice(0, 8000)}`;
       }
     }
 
-
     function displayResults(data) {
-
-
       const verdictCard = document.getElementById('verdict-card');
-
       verdictCard.classList.remove('agree', 'caution', 'decline');
       verdictCard.classList.add(data.verdict);
 
       const icons = { agree: '✅', caution: '⚠️', decline: '❌' };
-      document.getElementById('verdict-icon').textContent = icons[data.verdict] || '⚠️';
-      document.getElementById('verdict-label').textContent = data.verdictLabel || 'Review carefully';
+      document.getElementById('verdict-icon').textContent    = icons[data.verdict] || '⚠️';
+      document.getElementById('verdict-label').textContent   = data.verdictLabel   || 'Review carefully';
       document.getElementById('verdict-summary').textContent = data.verdictSummary || '';
-      document.getElementById('tldr').textContent = '📌 TL;DR: ' + (data.tldr || '');
+      document.getElementById('tldr').textContent            = '📌 TL;DR: ' + (data.tldr || '');
 
-
-      setScoreBar('privacy', data.scores?.privacy ?? 50);
-      setScoreBar('fairness', data.scores?.fairness ?? 50);
+      setScoreBar('privacy',      data.scores?.privacy      ?? 50);
+      setScoreBar('fairness',     data.scores?.fairness     ?? 50);
       setScoreBar('transparency', data.scores?.transparency ?? 50);
-      setScoreBar('rights', data.scores?.userRights ?? 50);
-
+      setScoreBar('rights',       data.scores?.userRights   ?? 50);
 
       const flagsList = document.getElementById('flags-list');
       flagsList.innerHTML = '';
@@ -1115,93 +925,74 @@ ${text.slice(0, 8000)}`;
         });
       }
 
-      addFlags(data.redFlags, '🔴');
+      addFlags(data.redFlags,   '🔴');
       addFlags(data.amberFlags, '🟡');
       addFlags(data.greenFlags, '🟢');
-
 
       if (flagsList.children.length === 0) {
         flagsList.innerHTML = '<li>No specific flags identified.</li>';
       }
 
-
-      document.getElementById('kp-data').textContent = data.keyPoints?.dataUsage || '—';
+      document.getElementById('kp-data').textContent         = data.keyPoints?.dataUsage    || '—';
       document.getElementById('kp-cancellation').textContent = data.keyPoints?.cancellation || '—';
-      document.getElementById('kp-liability').textContent = data.keyPoints?.liability || '—';
-      document.getElementById('kp-ownership').textContent = data.keyPoints?.ownership || '—';
-
+      document.getElementById('kp-liability').textContent    = data.keyPoints?.liability    || '—';
+      document.getElementById('kp-ownership').textContent    = data.keyPoints?.ownership    || '—';
 
       const resultsSection = document.getElementById('results-section');
       resultsSection.style.display = 'flex';
-
       resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-
     function setScoreBar(name, value) {
-      const fill = document.getElementById('score-' + name);
+      const fill  = document.getElementById('score-' + name);
       const label = document.getElementById('score-' + name + '-val');
       if (!fill || !label) return;
 
-      if (value >= 70) fill.style.background = '#4a9c59';
+      if (value >= 70)      fill.style.background = '#4a9c59';
       else if (value >= 40) fill.style.background = '#d4900a';
-      else fill.style.background = '#c0392b';
+      else                  fill.style.background = '#c0392b';
 
-      setTimeout(function () {
-        fill.style.width = value + '%';
-      }, 100);
-
+      setTimeout(function () { fill.style.width = value + '%'; }, 100);
       label.textContent = value + '/100';
     }
-
-
 
     function setLoading(isLoading, message) {
       const btn = document.getElementById('analyze-btn');
       btn.disabled = isLoading;
-      btn.textContent = isLoading ? '⏳ ' + message : '🔍 Analyze';
+      btn.textContent = isLoading ? '⏳ ' + message : 'Analyze';
     }
-
-
 
     function showError(message) {
       setLoading(false);
       alert('⚠️ ' + message);
     }
 
-
-
     const HISTORY_KEY = 'tc_analyzer_history';
-
 
     function loadHistory() {
       const raw = localStorage.getItem(HISTORY_KEY);
       return raw ? JSON.parse(raw) : [];
     }
 
-
     function saveHistoryToStorage(history) {
       localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
     }
 
-
     function saveToHistory(result, url) {
       const history = loadHistory();
-
 
       let title = url || document.getElementById('tc-input').value.trim().split('\n')[0];
       if (title.length > 60) title = title.slice(0, 60) + '...';
       if (!title) title = 'Untitled analysis';
 
       const entry = {
-        id: Date.now(),
-        title: title,
-        date: new Date().toLocaleDateString(),
+        id:      Date.now(),
+        title:   title,
+        date:    new Date().toLocaleDateString(),
         verdict: result.verdict,
-        label: result.verdictLabel,
-        data: result
+        label:   result.verdictLabel,
+        data:    result
       };
-
 
       history.unshift(entry);
       if (history.length > 20) history.pop();
@@ -1210,18 +1001,16 @@ ${text.slice(0, 8000)}`;
       renderHistory();
     }
 
-
     function renderHistory() {
       const history = loadHistory();
       const section = document.getElementById('history-section');
-      const list = document.getElementById('history-list');
+      const list    = document.getElementById('history-list');
 
       if (history.length === 0) {
         section.style.display = 'none';
         list.innerHTML = '<p class="history-empty">No analyses yet.</p>';
         return;
       }
-
 
       section.style.display = 'block';
       list.innerHTML = '';
@@ -1230,19 +1019,18 @@ ${text.slice(0, 8000)}`;
         const item = document.createElement('div');
         item.className = 'history-item';
         item.innerHTML = `
-            <div class="history-item-left">
-              <div class="history-verdict-dot ${entry.verdict}"></div>
-              <div class="history-item-info">
-                <div class="history-item-title">${entry.title}</div>
-                <div class="history-item-meta">${entry.date}</div>
-              </div>
+          <div class="history-item-left">
+            <div class="history-verdict-dot ${entry.verdict}"></div>
+            <div class="history-item-info">
+              <div class="history-item-title">${entry.title}</div>
+              <div class="history-item-meta">${entry.date}</div>
             </div>
-            <div class="history-item-right">
-              <span class="history-badge ${entry.verdict}">${entry.label}</span>
-              <button class="history-delete-btn" data-id="${entry.id}" title="Delete">✕</button>
-            </div>
-          `;
-
+          </div>
+          <div class="history-item-right">
+            <span class="history-badge ${entry.verdict}">${entry.label}</span>
+            <button class="history-delete-btn" data-id="${entry.id}" title="Delete">✕</button>
+          </div>
+        `;
 
         item.addEventListener('click', function (e) {
           if (e.target.classList.contains('history-delete-btn')) return;
@@ -1257,7 +1045,6 @@ ${text.slice(0, 8000)}`;
         list.appendChild(item);
       });
     }
-
 
     function deleteHistoryItem(id) {
       let history = loadHistory();
@@ -1274,9 +1061,7 @@ ${text.slice(0, 8000)}`;
     });
 
     renderHistory();
-
   </script>
 
 </body>
-
 </html>
