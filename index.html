@@ -108,21 +108,7 @@
     textarea {
       width: 100%;
       border: 1px solid #ddd;
-      border-radius: 8px;TERMS OF SERVICE
-
-1. Data Collection: By using our service, you agree that we may collect, store, and share your personal data including browsing history, location data, and contact lists with third-party advertisers and partners worldwide without further notice.
-
-2. Account Termination: We reserve the right to terminate your account at any time, for any reason, without notice, and without refund of any fees paid.
-
-3. Arbitration: Any disputes must be resolved through binding arbitration. You waive your right to participate in class action lawsuits.
-
-4. Content Ownership: Any content you upload becomes our property. We may use, sell, or modify your content without compensation or attribution to you.
-
-5. Auto-Renewal: Your subscription automatically renews annually. Cancellations must be made 30 days in advance via certified mail only.
-
-6. Liability Cap: Our total liability to you shall not exceed $1 regardless of the nature of the claim.
-
-7. Privacy: We will not sell your email address to spam lists, but may share it with selected partners for marketing purposes.
+      border-radius: 8px;
       padding: 12px;
       font-size: 14px;
       font-family: inherit;
@@ -258,21 +244,7 @@
     .keypoints-card h3 {
       font-size: 16px;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      font-weight: 600;TERMS OF SERVICE
-
-1. Data Collection: By using our service, you agree that we may collect, store, and share your personal data including browsing history, location data, and contact lists with third-party advertisers and partners worldwide without further notice.
-
-2. Account Termination: We reserve the right to terminate your account at any time, for any reason, without notice, and without refund of any fees paid.
-
-3. Arbitration: Any disputes must be resolved through binding arbitration. You waive your right to participate in class action lawsuits.
-
-4. Content Ownership: Any content you upload becomes our property. We may use, sell, or modify your content without compensation or attribution to you.
-
-5. Auto-Renewal: Your subscription automatically renews annually. Cancellations must be made 30 days in advance via certified mail only.
-
-6. Liability Cap: Our total liability to you shall not exceed $1 regardless of the nature of the claim.
-
-7. Privacy: We will not sell your email address to spam lists, but may share it with selected partners for marketing purposes.
+      font-weight: 600;
       margin-bottom: 1rem;
     }
 
@@ -595,7 +567,7 @@
         <button id="apikey-remove-btn" title="Remove saved key">Remove</button>
       </div>
       <p class="apikey-hint">
-        Your key is stored only in your browser, never sent anywhere except directly to Google.
+        Your key is stored only in your browser — never sent anywhere except directly to Google.
         Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>.
       </p>
     </section>
@@ -862,36 +834,41 @@
     }
 
     async function analyzeWithAI(text, apiKey) {
-      const prompt = `You are a legal clarity assistant. Your job is to analyze terms and conditions and help users understand what they are agreeing to.
+      const prompt = `You are a legal clarity assistant. Analyze the terms and conditions below and return a single valid JSON object.
 
-Respond ONLY with valid JSON — no explanation before or after, no markdown code fences.
+Rules:
+- "verdict" must be exactly one of: "agree", "caution", "decline"
+- "verdictLabel" must be exactly one of: "Safe to agree", "Agree with caution", "Consider declining"
+- "verdictSummary" is 2 plain-English sentences
+- "tldr" is 1 plain-English sentence
+- All score values are integers 0-100 where 0 = worst for user, 100 = best
+- All flag arrays contain short strings under 15 words each
+- All keyPoints values are plain-English strings
 
-Return exactly this structure:
+Return this exact JSON shape with real values filled in:
 {
-  "verdict": "agree" or "caution" or "decline",
-  "verdictLabel": "Safe to agree" or "Agree with caution" or "Consider declining",
-  "verdictSummary": "2 sentence plain-English recommendation",
-  "tldr": "One sentence summary of what the user is agreeing to",
+  "verdict": "caution",
+  "verdictLabel": "Agree with caution",
+  "verdictSummary": "This service collects significant personal data. Review the data sharing clauses before agreeing.",
+  "tldr": "You are giving this company broad rights to your data in exchange for using their platform.",
   "scores": {
-    "privacy": 0 to 100,
-    "fairness": 0 to 100,
-    "transparency": 0 to 100,
-    "userRights": 0 to 100
+    "privacy": 45,
+    "fairness": 60,
+    "transparency": 70,
+    "userRights": 55
   },
-  "redFlags":   ["serious problem under 15 words", "..."],
-  "amberFlags": ["thing to watch under 15 words", "..."],
-  "greenFlags": ["user-friendly term under 15 words", "..."],
+  "redFlags": ["Company can share your data with third parties without notice"],
+  "amberFlags": ["Auto-renewal requires 30 days notice to cancel"],
+  "greenFlags": ["You can delete your account at any time"],
   "keyPoints": {
-    "dataUsage":    "plain-English summary",
-    "cancellation": "plain-English summary",
-    "liability":    "plain-English summary",
-    "ownership":    "plain-English summary"
+    "dataUsage": "Your data may be shared with advertising partners.",
+    "cancellation": "Cancel anytime from account settings.",
+    "liability": "Company liability is capped at fees paid in the last 12 months.",
+    "ownership": "You retain ownership of your content."
   }
 }
 
-Scores: 0 = worst for the user, 100 = best. Be direct and honest.
-
-Here are the terms and conditions to analyze:
+Now analyze these terms and conditions and return only the JSON, no other text:
 
 ${text.slice(0, 8000)}`;
 
@@ -904,8 +881,9 @@ ${text.slice(0, 8000)}`;
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
-              temperature: 0.2,
-              maxOutputTokens: 2048
+              temperature: 0.1,
+              maxOutputTokens: 2048,
+              responseMimeType: "application/json"
             }
           })
         });
@@ -918,7 +896,13 @@ ${text.slice(0, 8000)}`;
         const data = await response.json();
         const raw = data.candidates[0].content.parts[0].text;
         const clean = raw.replace(/```json|```/g, '').trim();
-        return JSON.parse(clean);
+        try {
+          return JSON.parse(clean);
+        } catch (parseErr) {
+          const fixedQuotes = clean.replace(/[‘’]/g, "'").replace(/[“”]/g, '"');
+          const noTrailing = fixedQuotes.replace(/,\s*([\]}])/g, '$1');
+          return JSON.parse(noTrailing);
+        }
 
       } catch (err) {
         showError('AI analysis failed: ' + err.message);
