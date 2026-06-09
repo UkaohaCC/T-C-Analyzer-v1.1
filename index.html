@@ -1,0 +1,1282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T&C Analyzer</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background-color: #f5f5f0;
+      color: #1a1a1a;
+      font-size: 16px;
+      line-height: 1.6;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+
+    header h1 {
+      font-size: 28px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: #555;
+      font-size: 15px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+
+    .input-section,
+    .verdict-card,
+    .scores-card,
+    .flags-card,
+    .keypoints-card,
+    .history-section {
+      background: #ffffff;
+      border: 1px solid #e0e0d8;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+
+    .input-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1.25rem;
+      border: 1px solid #e0e0d8;
+      border-radius: 8px;
+      overflow: hidden;
+      width: fit-content;
+    }
+
+    .tab-btn {
+      padding: 8px 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      color: #888;
+      transition: background 0.15s, color 0.15s;
+      flex: none;
+    }
+
+    .tab-btn:hover {
+      background: #f5f5f0;
+      color: #444;
+      opacity: 1;
+    }
+
+
+    .tab-btn.active {
+      background: #1a1a1a;
+      color: #fff;
+    }
+
+
+    .input-panel {
+      display: none;
+    }
+
+    .input-panel.active {
+      display: block;
+    }
+
+    .input-panel label {
+      display: block;
+      font-weight: 500;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 14px;
+      font-family: inherit;
+      line-height: 1.6;
+      resize: vertical;
+      color: #1a1a1a;
+      background: #fafaf8;
+      transition: border-color 0.2s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #888;
+      background: #fff;
+    }
+
+
+    .url-input-wrap {
+      display: flex;
+      gap: 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fafaf8;
+      transition: border-color 0.2s;
+    }
+
+    .url-input-wrap:focus-within {
+      border-color: #888;
+      background: #fff;
+    }
+
+    .url-prefix {
+      padding: 11px 12px;
+      font-size: 14px;
+      color: #999;
+      background: #f0f0ea;
+      border-right: 1px solid #ddd;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    #url-input {
+      flex: 1;
+      border: none;
+      padding: 11px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #1a1a1a;
+      background: transparent;
+      outline: none;
+    }
+
+    .url-note {
+      font-size: 13px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #999;
+      margin-top: 8px;
+    }
+
+    .char-count {
+      font-size: 13px;
+      color: #999;
+      text-align: right;
+      margin-top: 6px;
+    }
+
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 1rem;
+    }
+
+    button {
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid transparent;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      transition: opacity 0.15s, background 0.15s;
+    }
+
+    #analyze-btn {
+      background: #1a1a1a;
+      color: #fff;
+      flex: 1;
+    }
+
+    #analyze-btn:hover {
+      opacity: 0.85;
+    }
+
+    #analyze-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #clear-btn {
+      background: transparent;
+      color: #555;
+      border-color: #ddd;
+    }
+
+    #clear-btn:hover {
+      background: #f5f5f0;
+    }
+
+
+    .results-section {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+
+    .verdict-card {
+      border-left: 5px solid #ccc;
+    }
+
+    .verdict-card.agree {
+      border-left-color: #4a9c59;
+      background: #f0faf2;
+    }
+
+    .verdict-card.caution {
+      border-left-color: #d4900a;
+      background: #fffbf0;
+    }
+
+    .verdict-card.decline {
+      border-left-color: #c0392b;
+      background: #fff5f5;
+    }
+
+    #verdict-icon {
+      font-size: 32px;
+      margin-bottom: 6px;
+    }
+
+    #verdict-label {
+      font-size: 20px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    #verdict-summary {
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    #tldr {
+      font-size: 14px;
+      color: #666;
+      border-top: 1px solid #e0e0d8;
+      padding-top: 10px;
+      margin-top: 4px;
+    }
+
+
+    .scores-card h3,
+    .flags-card h3,
+    .keypoints-card h3 {
+      font-size: 16px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .score-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .score-label {
+      font-size: 14px;
+      color: #555;
+      min-width: 100px;
+    }
+
+    .score-bar-bg {
+      flex: 1;
+      height: 8px;
+      background: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .score-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.6s ease;
+    }
+
+    .score-value {
+      font-size: 13px;
+      font-weight: 500;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      color: #444;
+      min-width: 36px;
+      text-align: right;
+    }
+
+
+    #flags-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    #flags-list li {
+      font-size: 14px;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+
+    .key-point {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0ea;
+    }
+
+    .key-point:last-child {
+      border-bottom: none;
+    }
+
+    .key-point h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+
+    .key-point p {
+      font-size: 14px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+
+    .history-section {
+      display: none;
+    }
+
+    .history-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+
+    .history-header h3 {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    #clear-history-btn {
+      font-size: 13px;
+      padding: 5px 12px;
+      color: #c0392b;
+      border-color: #f5c6c2;
+      background: transparent;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid #f5c6c2;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    #clear-history-btn:hover {
+      background: #fff5f5;
+    }
+
+    #history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+
+    .history-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      border: 1px solid #e0e0d8;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s;
+      gap: 12px;
+    }
+
+    .history-item:hover {
+      background: #fafaf8;
+    }
+
+    .history-item-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+
+    .history-verdict-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .history-verdict-dot.agree {
+      background: #4a9c59;
+    }
+
+    .history-verdict-dot.caution {
+      background: #d4900a;
+    }
+
+    .history-verdict-dot.decline {
+      background: #c0392b;
+    }
+
+    .history-item-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .history-item-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #1a1a1a;
+      white-space: nowrap;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .history-item-meta {
+      font-size: 12px;
+      color: #999;
+      margin-top: 2px;
+    }
+
+    .history-item-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .history-badge {
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .history-badge.agree {
+      background: #f0faf2;
+      color: #4a9c59;
+    }
+
+    .history-badge.caution {
+      background: #fffbf0;
+      color: #d4900a;
+    }
+
+    .history-badge.decline {
+      background: #fff5f5;
+      color: #c0392b;
+    }
+
+    .history-delete-btn {
+      font-size: 13px;
+      color: #bbb;
+      background: transparent;
+      border: none;
+      padding: 4px 6px;
+      border-radius: 4px;
+      cursor: pointer;
+      line-height: 1;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .history-delete-btn:hover {
+      color: #c0392b;
+      background: #fff5f5;
+    }
+
+
+    .history-empty {
+      text-align: center;
+      font-size: 14px;
+      color: #bbb;
+      padding: 1rem 0;
+    }
+
+
+    .apikey-section {
+      background: #fff;
+      border: 1px solid #e0e0d8;
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+    }
+
+    .apikey-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .apikey-header h3 {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .apikey-saved-badge {
+      display: none;
+      font-size: 12px;
+      font-weight: 500;
+      background: #f0faf2;
+      color: #4a9c59;
+      border: 1px solid #c3e6cb;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .apikey-saved-badge.visible {
+      display: inline-block;
+    }
+
+    .apikey-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .apikey-input-wrap {
+      flex: 1;
+      display: flex;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fafaf8;
+      transition: border-color 0.2s;
+    }
+
+    .apikey-input-wrap:focus-within {
+      border-color: #888;
+      background: #fff;
+    }
+
+    #apikey-input {
+      flex: 1;
+      border: none;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #1a1a1a;
+      background: transparent;
+      outline: none;
+    }
+
+    #apikey-toggle {
+      background: transparent;
+      border: none;
+      border-left: 1px solid #eee;
+      padding: 0 12px;
+      cursor: pointer;
+      font-size: 15px;
+      color: #888;
+      border-radius: 0;
+    }
+
+    #apikey-toggle:hover {
+      background: #f5f5f0;
+      color: #444;
+      opacity: 1;
+    }
+
+    #apikey-save-btn {
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+
+    #apikey-save-btn:hover {
+      opacity: 0.85;
+    }
+
+    #apikey-remove-btn {
+      display: none;
+      background: transparent;
+      border: 1px solid #f5c6c2;
+      color: #c0392b;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+
+    #apikey-remove-btn:hover {
+      background: #fff5f5;
+    }
+
+    #apikey-remove-btn.visible {
+      display: inline-block;
+    }
+
+    .apikey-hint {
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 8px;
+    }
+
+    .apikey-hint a {
+      color: #888;
+      text-decoration: underline;
+    }
+
+
+    footer {
+      text-align: center;
+      font-size: 13px;
+      color: #aaa;
+      padding-top: 0.5rem;
+    }
+
+
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem 0.75rem;
+      }
+
+      header h1 {
+        font-size: 22px;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .history-item-meta {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <header>
+      <h1>T&C Analyzer</h1>
+      <p>Paste any terms and conditions... get a plain-English breakdown and a clear recommendation.</p>
+    </header>
+
+
+
+    <section class="apikey-section" id="apikey-section">
+      <div class="apikey-header">
+        <h3>Gemini API Key</h3>
+        <span class="apikey-saved-badge" id="apikey-saved-badge">✓ Key saved</span>
+      </div>
+      <div class="apikey-input-row">
+        <div class="apikey-input-wrap">
+          <input type="password" id="apikey-input" placeholder="Paste your Gemini API key here..." autocomplete="off"
+            spellcheck="false" />
+          <button id="apikey-toggle" title="Show / hide key">👁</button>
+        </div>
+        <button id="apikey-save-btn">Save</button>
+        <button id="apikey-remove-btn" class="" title="Remove saved key">Remove</button>
+      </div>
+      <p class="apikey-hint">
+        Your key is stored only in your browser — never sent anywhere except directly to Google.
+        Get a free key at <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a>.
+      </p>
+    </section>
+
+
+    <section class="input-section">
+
+
+      <div class="input-tabs">
+        <button class="tab-btn active" id="tab-paste" onclick="switchTab('paste')"> Paste Text</button>
+        <button class="tab-btn" id="tab-url" onclick="switchTab('url')"> Enter URL</button>
+      </div>
+
+
+      <div class="input-panel active" id="panel-paste">
+        <label for="tc-input">Paste your Terms & Conditions below:</label>
+        <textarea id="tc-input" placeholder="Paste the full terms and conditions here..." rows="12"></textarea>
+        <p class="char-count"><span id="char-number">0</span> characters</p>
+      </div>
+
+      <div class="input-panel" id="panel-url">
+        <label for="url-input">Enter the URL of the Terms & Conditions page:</label>
+        <div class="url-input-wrap">
+          <span class="url-prefix">🌐</span>
+          <input type="url" id="url-input" placeholder="https://example.com/terms" />
+        </div>
+        <p class="url-note">The app will attempt to fetch and read the page content automatically.</p>
+      </div>
+
+
+      <div class="button-group">
+        <button id="analyze-btn">Analyze</button>
+        <button id="clear-btn">✕ Clear</button>
+      </div>
+
+    </section>
+
+
+    <section class="results-section" id="results-section">
+
+      <div class="verdict-card" id="verdict-card">
+        <h2 id="verdict-icon"></h2>
+        <h3 id="verdict-label"></h3>
+        <p id="verdict-summary"></p>
+        <p id="tldr"></p>
+      </div>
+
+      <div class="scores-card">
+        <h3>Scores</h3>
+        <div class="score-row">
+          <span class="score-label">Privacy</span>
+          <div class="score-bar-bg">
+            <div class="score-bar-fill" id="score-privacy"></div>
+          </div>
+          <span class="score-value" id="score-privacy-val"></span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Fairness</span>
+          <div class="score-bar-bg">
+            <div class="score-bar-fill" id="score-fairness"></div>
+          </div>
+          <span class="score-value" id="score-fairness-val"></span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Transparency</span>
+          <div class="score-bar-bg">
+            <div class="score-bar-fill" id="score-transparency"></div>
+          </div>
+          <span class="score-value" id="score-transparency-val"></span>
+        </div>
+        <div class="score-row">
+          <span class="score-label">Your Rights</span>
+          <div class="score-bar-bg">
+            <div class="score-bar-fill" id="score-rights"></div>
+          </div>
+          <span class="score-value" id="score-rights-val"></span>
+        </div>
+      </div>
+
+      <div class="flags-card">
+        <h3>Flags</h3>
+        <ul id="flags-list"></ul>
+      </div>
+
+      <div class="keypoints-card">
+        <h3>Key Points</h3>
+        <div class="key-point">
+          <h4>Data Usage</h4>
+          <p id="kp-data"></p>
+        </div>
+        <div class="key-point">
+          <h4>Cancellation</h4>
+          <p id="kp-cancellation"></p>
+        </div>
+        <div class="key-point">
+          <h4>Liability</h4>
+          <p id="kp-liability"></p>
+        </div>
+        <div class="key-point">
+          <h4>Content Ownership</h4>
+          <p id="kp-ownership"></p>
+        </div>
+      </div>
+
+    </section>
+
+
+    <section class="history-section" id="history-section">
+
+      <div class="history-header">
+        <h3> Recent Analyses</h3>
+        <button id="clear-history-btn">Clear all</button>
+      </div>
+
+
+      <div id="history-list">
+        <p class="history-empty">No analyses yet.</p>
+      </div>
+
+    </section>
+
+    <footer>
+      <p>This tool provides general guidance only... not legal advice.</p>
+    </footer>
+
+  </div>
+
+  <script>
+
+    const KEY_STORAGE = 'tc_analyzer_gemini_key';
+
+    function getApiKey() {
+      return localStorage.getItem(KEY_STORAGE) || '';
+    }
+
+
+    document.getElementById('apikey-save-btn').addEventListener('click', function () {
+      const val = document.getElementById('apikey-input').value.trim();
+      if (!val) { alert('Please paste your API key first.'); return; }
+      localStorage.setItem(KEY_STORAGE, val);
+      updateKeyUI(true);
+    });
+
+
+    document.getElementById('apikey-remove-btn').addEventListener('click', function () {
+      if (confirm('Remove saved API key?')) {
+        localStorage.removeItem(KEY_STORAGE);
+        document.getElementById('apikey-input').value = '';
+        updateKeyUI(false);
+      }
+    });
+
+    document.getElementById('apikey-toggle').addEventListener('click', function () {
+      const input = document.getElementById('apikey-input');
+      const isHidden = input.type === 'password';
+      input.type = isHidden ? 'text' : 'password';
+      this.textContent = isHidden ? '🙈' : '👁';
+    });
+
+
+    function updateKeyUI(hasSavedKey) {
+      document.getElementById('apikey-saved-badge').classList.toggle('visible', hasSavedKey);
+      document.getElementById('apikey-remove-btn').classList.toggle('visible', hasSavedKey);
+      if (hasSavedKey) {
+        document.getElementById('apikey-input').value = '';
+        document.getElementById('apikey-input').placeholder = '●●●●●●●●●●●●●●●● (key saved)';
+      } else {
+        document.getElementById('apikey-input').placeholder = 'Paste your Gemini API key here...';
+      }
+    }
+
+
+    updateKeyUI(!!getApiKey());
+
+
+    let activeTab = 'paste';
+
+    function switchTab(tab) {
+      activeTab = tab;
+      document.getElementById('panel-paste').classList.toggle('active', tab === 'paste');
+      document.getElementById('panel-url').classList.toggle('active', tab === 'url');
+      document.getElementById('tab-paste').classList.toggle('active', tab === 'paste');
+      document.getElementById('tab-url').classList.toggle('active', tab === 'url');
+    }
+
+
+    document.getElementById('tc-input').addEventListener('input', function () {
+      document.getElementById('char-number').textContent =
+        this.value.length.toLocaleString();
+    });
+
+
+
+    document.getElementById('clear-btn').addEventListener('click', function () {
+      document.getElementById('tc-input').value = '';
+      document.getElementById('url-input').value = '';
+      document.getElementById('char-number').textContent = '0';
+
+      document.getElementById('results-section').style.display = 'none';
+    });
+
+
+    document.getElementById('analyze-btn').addEventListener('click', async function () {
+
+      const API_KEY = getApiKey();
+      if (!API_KEY) {
+        alert('\u26a0\ufe0f Please enter and save your Gemini API key at the top of the page first.\nGet a free key at: https://aistudio.google.com/app/apikey');
+        document.getElementById('apikey-input').focus();
+        return;
+      }
+
+      let tcText = '';
+
+      if (activeTab === 'paste') {
+        tcText = document.getElementById('tc-input').value.trim();
+        if (!tcText) {
+          showError('Please paste some terms and conditions text first.');
+          return;
+        }
+
+      } else {
+
+        const url = document.getElementById('url-input').value.trim();
+        if (!url) {
+          showError('Please enter a URL first.');
+          return;
+        }
+        setLoading(true, 'Fetching page content...');
+        tcText = await fetchUrlContent(url);
+        if (!tcText) return;
+      }
+
+      setLoading(true, 'Analyzing terms and conditions...');
+      const result = await analyzeWithAI(tcText);
+      setLoading(false);
+
+      if (result) {
+        displayResults(result);
+        saveToHistory(result, activeTab === 'url' ? document.getElementById('url-input').value : null);
+      }
+    });
+
+
+
+    async function fetchUrlContent(url) {
+      try {
+
+        const proxyUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+        const response = await fetch(proxyUrl);
+
+        if (!response.ok) {
+          throw new Error('Could not fetch the page (status ' + response.status + ')');
+        }
+
+        const html = await response.text();
+        const plain = stripHtml(html);
+
+        if (plain.length < 100) {
+          throw new Error('The page content seems too short. It may require login or block bots.');
+        }
+
+        setLoading(true, 'Page fetched! Now analyzing...');
+        return plain;
+
+      } catch (err) {
+        setLoading(false);
+        showError('Could not fetch that URL: ' + err.message + '. Try pasting the text manually instead.');
+        return null;
+      }
+    }
+
+
+    function stripHtml(html) {
+
+      html = html.replace(/<script[\s\S]*?<\/script>/gi, '');
+      html = html.replace(/<style[\s\S]*?<\/style>/gi, '');
+
+      html = html.replace(/<[^>]+>/g, ' ');
+
+      html = html.replace(/&amp;/g, '&')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&#39;/g, "'")
+        .replace(/&quot;/g, '"');
+
+      html = html.replace(/\s{3,}/g, '\n\n').trim();
+      return html;
+    }
+
+
+    async function analyzeWithAI(text) {
+
+
+      const prompt = `You are a legal clarity assistant. Your job is to analyze terms and conditions and help users understand what they are agreeing to.
+
+Respond ONLY with valid JSON — no explanation before or after, no markdown code fences.
+
+Return exactly this structure:
+{
+  "verdict": "agree" or "caution" or "decline",
+  "verdictLabel": "Safe to agree" or "Agree with caution" or "Consider declining",
+  "verdictSummary": "2 sentence plain-English recommendation",
+  "tldr": "One sentence summary of what the user is agreeing to",
+  "scores": {
+    "privacy": 0 to 100,
+    "fairness": 0 to 100,
+    "transparency": 0 to 100,
+    "userRights": 0 to 100
+  },
+  "redFlags":   ["serious problem under 15 words", "..."],
+  "amberFlags": ["thing to watch under 15 words", "..."],
+  "greenFlags": ["user-friendly term under 15 words", "..."],
+  "keyPoints": {
+    "dataUsage":    "plain-English summary",
+    "cancellation": "plain-English summary",
+    "liability":    "plain-English summary",
+    "ownership":    "plain-English summary"
+  }
+}
+
+Scores: 0 = worst for the user, 100 = best. Be direct and honest.
+
+Here are the terms and conditions to analyze:
+
+${text.slice(0, 8000)}`;
+
+      try {
+
+        const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=' + API_KEY;
+
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [{ text: prompt }]
+              }
+            ],
+            generationConfig: {
+              temperature: 0.2,
+              maxOutputTokens: 1024
+            }
+          })
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err?.error?.message || 'API error ' + response.status);
+        }
+
+        const data = await response.json();
+
+        const raw = data.candidates[0].content.parts[0].text;
+
+        const clean = raw.replace(/```json|```/g, '').trim();
+
+
+        return JSON.parse(clean);
+
+      } catch (err) {
+        showError('AI analysis failed: ' + err.message);
+        return null;
+      }
+    }
+
+
+    function displayResults(data) {
+
+
+      const verdictCard = document.getElementById('verdict-card');
+
+      verdictCard.classList.remove('agree', 'caution', 'decline');
+      verdictCard.classList.add(data.verdict);
+
+      const icons = { agree: '✅', caution: '⚠️', decline: '❌' };
+      document.getElementById('verdict-icon').textContent = icons[data.verdict] || '⚠️';
+      document.getElementById('verdict-label').textContent = data.verdictLabel || 'Review carefully';
+      document.getElementById('verdict-summary').textContent = data.verdictSummary || '';
+      document.getElementById('tldr').textContent = '📌 TL;DR: ' + (data.tldr || '');
+
+
+      setScoreBar('privacy', data.scores?.privacy ?? 50);
+      setScoreBar('fairness', data.scores?.fairness ?? 50);
+      setScoreBar('transparency', data.scores?.transparency ?? 50);
+      setScoreBar('rights', data.scores?.userRights ?? 50);
+
+
+      const flagsList = document.getElementById('flags-list');
+      flagsList.innerHTML = '';
+
+      function addFlags(flags, emoji) {
+        (flags || []).forEach(function (flag) {
+          const li = document.createElement('li');
+          li.innerHTML = '<span>' + emoji + '</span><span>' + flag + '</span>';
+          flagsList.appendChild(li);
+        });
+      }
+
+      addFlags(data.redFlags, '🔴');
+      addFlags(data.amberFlags, '🟡');
+      addFlags(data.greenFlags, '🟢');
+
+
+      if (flagsList.children.length === 0) {
+        flagsList.innerHTML = '<li>No specific flags identified.</li>';
+      }
+
+
+      document.getElementById('kp-data').textContent = data.keyPoints?.dataUsage || '—';
+      document.getElementById('kp-cancellation').textContent = data.keyPoints?.cancellation || '—';
+      document.getElementById('kp-liability').textContent = data.keyPoints?.liability || '—';
+      document.getElementById('kp-ownership').textContent = data.keyPoints?.ownership || '—';
+
+
+      const resultsSection = document.getElementById('results-section');
+      resultsSection.style.display = 'flex';
+
+      resultsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+
+    function setScoreBar(name, value) {
+      const fill = document.getElementById('score-' + name);
+      const label = document.getElementById('score-' + name + '-val');
+      if (!fill || !label) return;
+
+      if (value >= 70) fill.style.background = '#4a9c59';
+      else if (value >= 40) fill.style.background = '#d4900a';
+      else fill.style.background = '#c0392b';
+
+      setTimeout(function () {
+        fill.style.width = value + '%';
+      }, 100);
+
+      label.textContent = value + '/100';
+    }
+
+
+
+    function setLoading(isLoading, message) {
+      const btn = document.getElementById('analyze-btn');
+      btn.disabled = isLoading;
+      btn.textContent = isLoading ? '⏳ ' + message : '🔍 Analyze';
+    }
+
+
+
+    function showError(message) {
+      setLoading(false);
+      alert('⚠️ ' + message);
+    }
+
+
+
+    const HISTORY_KEY = 'tc_analyzer_history';
+
+
+    function loadHistory() {
+      const raw = localStorage.getItem(HISTORY_KEY);
+      return raw ? JSON.parse(raw) : [];
+    }
+
+
+    function saveHistoryToStorage(history) {
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
+    }
+
+
+    function saveToHistory(result, url) {
+      const history = loadHistory();
+
+
+      let title = url || document.getElementById('tc-input').value.trim().split('\n')[0];
+      if (title.length > 60) title = title.slice(0, 60) + '...';
+      if (!title) title = 'Untitled analysis';
+
+      const entry = {
+        id: Date.now(),
+        title: title,
+        date: new Date().toLocaleDateString(),
+        verdict: result.verdict,
+        label: result.verdictLabel,
+        data: result
+      };
+
+
+      history.unshift(entry);
+      if (history.length > 20) history.pop();
+
+      saveHistoryToStorage(history);
+      renderHistory();
+    }
+
+
+    function renderHistory() {
+      const history = loadHistory();
+      const section = document.getElementById('history-section');
+      const list = document.getElementById('history-list');
+
+      if (history.length === 0) {
+        section.style.display = 'none';
+        list.innerHTML = '<p class="history-empty">No analyses yet.</p>';
+        return;
+      }
+
+
+      section.style.display = 'block';
+      list.innerHTML = '';
+
+      history.forEach(function (entry) {
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `
+            <div class="history-item-left">
+              <div class="history-verdict-dot ${entry.verdict}"></div>
+              <div class="history-item-info">
+                <div class="history-item-title">${entry.title}</div>
+                <div class="history-item-meta">${entry.date}</div>
+              </div>
+            </div>
+            <div class="history-item-right">
+              <span class="history-badge ${entry.verdict}">${entry.label}</span>
+              <button class="history-delete-btn" data-id="${entry.id}" title="Delete">✕</button>
+            </div>
+          `;
+
+
+        item.addEventListener('click', function (e) {
+          if (e.target.classList.contains('history-delete-btn')) return;
+          displayResults(entry.data);
+        });
+
+        item.querySelector('.history-delete-btn').addEventListener('click', function (e) {
+          e.stopPropagation();
+          deleteHistoryItem(entry.id);
+        });
+
+        list.appendChild(item);
+      });
+    }
+
+
+    function deleteHistoryItem(id) {
+      let history = loadHistory();
+      history = history.filter(function (entry) { return entry.id !== id; });
+      saveHistoryToStorage(history);
+      renderHistory();
+    }
+
+    document.getElementById('clear-history-btn').addEventListener('click', function () {
+      if (confirm('Clear all history?')) {
+        localStorage.removeItem(HISTORY_KEY);
+        renderHistory();
+      }
+    });
+
+    renderHistory();
+
+  </script>
+
+</body>
+
+</html>
